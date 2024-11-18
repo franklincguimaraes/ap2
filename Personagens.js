@@ -24,21 +24,27 @@ if (!nome) {
   window.onload = function criaPersonagem() {
     if (!dados) return;
 
-    // Cria e adiciona um elemento ao body
+    // Cria o contêiner principal para os dados do personagem
+    const characterInfoDiv = document.createElement("div");
+    characterInfoDiv.className = "character-info"; // Adiciona a classe para estilização
+
+    // Cria e adiciona um elemento ao contêiner character-info
     function adicionarElemento(tag, conteudo) {
       const elemento = document.createElement(tag);
       elemento.innerHTML = conteudo;
-      document.body.appendChild(elemento);
+      characterInfoDiv.appendChild(elemento);
     }
 
-    // Cria e exibe os elementos de dados do personagem na página
+    // Adiciona a imagem do personagem, se disponível
     if (dados.image) {
       const imagem = document.createElement("img");
       imagem.src = dados.image;
       imagem.alt = `${dados.name} - imagem`;
-      document.body.appendChild(imagem);
+      imagem.className = "character-picture"; // Classe para estilização da imagem
+      characterInfoDiv.appendChild(imagem);
     }
 
+    // Adiciona os detalhes do personagem
     adicionarElemento(
       "p",
       `<strong>Nome:</strong> ${dados.name || "Desconhecido"}`
@@ -71,5 +77,8 @@ if (!nome) {
       "p",
       `<strong>Patronus:</strong> ${dados.patronus || "Desconhecido"}`
     );
+
+    // Adiciona o contêiner character-info ao elemento pai na página
+    document.getElementById("bio").appendChild(characterInfoDiv);
   };
 }
