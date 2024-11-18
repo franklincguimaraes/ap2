@@ -24,61 +24,49 @@ if (!nome) {
   window.onload = function criaPersonagem() {
     if (!dados) return;
 
-    // Cria o contêiner principal para os dados do personagem
+    // Contêiner principal para os dados do personagem
     const characterInfoDiv = document.createElement("div");
-    characterInfoDiv.className = "character-info"; // Adiciona a classe para estilização
+    characterInfoDiv.className = "character-info-container"; // Classe para estilização
 
-    // Cria e adiciona um elemento ao contêiner character-info
-    function adicionarElemento(tag, conteudo) {
-      const elemento = document.createElement(tag);
-      elemento.innerHTML = conteudo;
-      characterInfoDiv.appendChild(elemento);
-    }
+    // Contêiner para a imagem do personagem
+    const characterImageDiv = document.createElement("div");
+    characterImageDiv.className = "character-image";
 
-    // Adiciona a imagem do personagem, se disponível
     if (dados.image) {
       const imagem = document.createElement("img");
       imagem.src = dados.image;
       imagem.alt = `${dados.name} - imagem`;
-      imagem.className = "character-picture"; // Classe para estilização da imagem
-      characterInfoDiv.appendChild(imagem);
+      imagem.className = "character-img";
+      characterImageDiv.appendChild(imagem);
+    } else {
+      characterImageDiv.innerHTML = "<p>Imagem não disponível</p>";
     }
 
-    // Adiciona os detalhes do personagem
-    adicionarElemento(
-      "p",
-      `<strong>Nome:</strong> ${dados.name || "Desconhecido"}`
-    );
-    adicionarElemento(
-      "p",
-      `<strong>Data de Nascimento:</strong> ${
-        dados.dateOfBirth || "Desconhecida"
-      }`
-    );
-    adicionarElemento(
-      "p",
-      `<strong>Ancestralidade:</strong> ${dados.ancestry || "Desconhecida"}`
-    );
-    adicionarElemento(
-      "p",
-      `<strong>Cor dos Olhos:</strong> ${dados.eyeColour || "Desconhecida"}`
-    );
-    adicionarElemento(
-      "p",
-      `<strong>Cor do Cabelo:</strong> ${dados.hairColour || "Desconhecida"}`
-    );
-    adicionarElemento(
-      "p",
-      `<strong>Núcleo da Varinha:</strong> ${
-        dados.wand?.core || "Desconhecido"
-      }`
-    );
-    adicionarElemento(
-      "p",
-      `<strong>Patronus:</strong> ${dados.patronus || "Desconhecido"}`
-    );
+    // Contêiner para os detalhes do personagem
+    const characterDetailsDiv = document.createElement("div");
+    characterDetailsDiv.className = "character-details";
 
-    // Adiciona o contêiner character-info ao elemento pai na página
+    function adicionarElemento(label, valor) {
+      const elemento = document.createElement("p");
+      elemento.innerHTML = `<strong>${label}:</strong> ${
+        valor || "Desconhecido"
+      }`;
+      characterDetailsDiv.appendChild(elemento);
+    }
+
+    adicionarElemento("Nome", dados.name);
+    adicionarElemento("Data de Nascimento", dados.dateOfBirth);
+    adicionarElemento("Ancestralidade", dados.ancestry);
+    adicionarElemento("Cor dos Olhos", dados.eyeColour);
+    adicionarElemento("Cor do Cabelo", dados.hairColour);
+    adicionarElemento("Núcleo da Varinha", dados.wand?.core);
+    adicionarElemento("Patronus", dados.patronus);
+
+    // Adiciona os contêineres de imagem e detalhes ao contêiner principal
+    characterInfoDiv.appendChild(characterImageDiv);
+    characterInfoDiv.appendChild(characterDetailsDiv);
+
+    // Adiciona o contêiner principal ao elemento pai na página
     document.getElementById("bio").appendChild(characterInfoDiv);
   };
 }
